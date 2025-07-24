@@ -1,10 +1,10 @@
 <!-- Vite + Vue3 + TailwindCSS 示例上传组件 UI -->
 <template>
-  <div class="min-h-screen w-screen overflow-x-hidden bg-[#cccccc] flex items-center justify-center px-4">
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-10 flex flex-col justify-center">
-      <h2 class="text-3xl font-bold mb-6 text-gray-800 text-center">📄 上传论文链接</h2>
+  <div class="fixed inset-0 bg-[#cccccc] flex items-center justify-center px-4">
+    <div class="w-full max-w-lg bg-white rounded-2xl shadow-lg p-8 sm:p-10">
+      <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 text-center mb-6">📄 上传论文链接</h2>
 
-      <label for="url" class="block text-sm font-medium text-gray-700 mb-2 text-center">
+      <label for="url" class="block text-sm text-gray-700 text-center mb-2">
         输入包含 PDF 的网页链接：
       </label>
 
@@ -13,7 +13,7 @@
         type="url"
         id="url"
         placeholder="https://example.com/papers"
-        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black placeholder-gray-400 mb-6"
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black placeholder-gray-400"
       />
 
       <button
