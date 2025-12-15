@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kb-mvp"
+version = "0.1.0"
+description = "Minimal personal knowledge base MVP: PDF ingest -> SQLite FTS -> related chunks"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy>=1.24",
+  "pypdf>=6.4.1",
+  "python-dotenv>=1.2.1",
+]
+
+[project.scripts]
+kb = "kb.cli:main"
+
+# ✅ 新写法：PEP 735 dependency groups（替代 [tool.uv].dev-dependencies）
+[dependency-groups]
+dev = [
+  "ruff>=0.6",
+  "pytest>=8",
+]
+
+# ✅ 关键：明确只把 kb 当作要安装的包（避免 data/front_end 被误当成包）
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["kb*"]
+exclude = ["data*", "front_end*"]
+

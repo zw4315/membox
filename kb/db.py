@@ -1,0 +1,20 @@
+from __future__ import annotations
+
+import sqlite3
+from pathlib import Path
+
+SCHEMA_PATH = Path(__file__).with_name("schema.sql")
+
+def connect(db_path: str) -> sqlite3.Connection:
+    p = Path(db_path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    conn = sqlite3.connect(str(p))
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA foreign_keys=ON;")
+    conn.execute("PRAGMA journal_mode=WAL;")
+    return conn
+
+def init_db(conn: sqlite3.Connection) -> None:
+    schema = SCHEMA_PATH.read_text(encoding="utf-8")
+    conn.executescript(schema)
+    conn.commit()

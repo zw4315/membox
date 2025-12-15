@@ -1,0 +1,8 @@
+data/*.sqlite
+__pycache__/
+kb_mvp.egg-info/
+.metadata/
+.venv/
+*.pyc
+.env
+uv.lock
