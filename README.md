@@ -24,9 +24,10 @@ uv pip install -e .
 ## Run
 
 ```bash
-mm index /path/to/file.pdf --db data/kb.sqlite
-mm search "socket listen backlog" --db data/kb.sqlite -n 10
-mm related --doc /path/to/file.pdf --page 12 --db data/kb.sqlite --bootstrap -n 10
+mm index /path/to/file.pdf --db data/mb.sqlite
+mm search "socket listen backlog" --db data/mb.sqlite -n 10
+mm related --doc /path/to/file.pdf --page 12 --db data/mb.sqlite --bootstrap -n 10
+mm related --query "concept" --db data/mb.sqlite --bootstrap -n 10
 ```
 
 ## Notes
@@ -34,3 +35,14 @@ mm related --doc /path/to/file.pdf --page 12 --db data/kb.sqlite --bootstrap -n 
 - PDF text extraction tries (in order): PyMuPDF (`fitz`), `pypdf`, `pdftotext` command.
 - Embeddings are a lightweight hashed bag-of-words baseline so the MVP works offline.
   Later you can swap in real embeddings by editing `mcore/embedder.py`.
+- `mm related --query "concept" --bootstrap` uses your query text as the vector seed.
+  On first run it computes embeddings for all chunks (`--bootstrap`), then returns the most similar chunks.
+
+## Common errors and usage
+
+- `mm` alone prints help; a subcommand is required (`index`, `search`, `related`, `api`).
+- `related` needs one of:
+  - `--query "text"`
+  - `--chunk-id <id>`
+  - `--doc /path/to/file.pdf --page 12`
+- If `related` says no embeddings, re-run once with `--bootstrap`.
