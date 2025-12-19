@@ -1,6 +1,6 @@
 data/*.sqlite
 __pycache__/
-kb_mvp.egg-info/
+*.egg-info/
 .metadata/
 .venv/
 *.pyc

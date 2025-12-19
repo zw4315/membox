@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import argparse
-from .db import connect
-from .commands import index as cmd_index
-from .commands import search as cmd_search
-from .commands import related as cmd_related
+from ..kb.db import connect
+from ..kb.commands import index as cmd_index
+from ..kb.commands import search as cmd_search
+from ..kb.commands import related as cmd_related
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="kb", description="kb-mvp: PDF -> SQLite FTS -> related chunks")
