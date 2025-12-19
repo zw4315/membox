@@ -1,10 +1,10 @@
-# kb-mvp (Python + argparse + uv)
+# mm-mvp (Python + argparse + uv)
 
 A minimal knowledge-base MVP:
 
-- `kb index <pdf-or-dir>`: ingest PDF(s) into SQLite, build FTS index
-- `kb search "<query>"`: keyword search via SQLite FTS5
-- `kb related ...`: related chunks using lightweight embeddings (offline, no external model)
+ - `mm index <pdf-or-dir>`: ingest PDF(s) into SQLite, build FTS index
+ - `mm search "<query>"`: keyword search via SQLite FTS5
+ - `mm related ...`: related chunks using lightweight embeddings (offline, no external model)
 
 ## Install (uv)
 
@@ -24,13 +24,13 @@ uv pip install -e .
 ## Run
 
 ```bash
-kb index /path/to/file.pdf --db data/kb.sqlite
-kb search "socket listen backlog" --db data/kb.sqlite -n 10
-kb related --doc /path/to/file.pdf --page 12 --db data/kb.sqlite --bootstrap -n 10
+mm index /path/to/file.pdf --db data/kb.sqlite
+mm search "socket listen backlog" --db data/kb.sqlite -n 10
+mm related --doc /path/to/file.pdf --page 12 --db data/kb.sqlite --bootstrap -n 10
 ```
 
 ## Notes
 
 - PDF text extraction tries (in order): PyMuPDF (`fitz`), `pypdf`, `pdftotext` command.
 - Embeddings are a lightweight hashed bag-of-words baseline so the MVP works offline.
-  Later you can swap in real embeddings by editing `kb/embedder.py`.
+  Later you can swap in real embeddings by editing `mcore/embedder.py`.

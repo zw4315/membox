@@ -16,7 +16,7 @@ dependencies = [
 ]
 
 [project.scripts]
-kb = "kb.cli:main"
+mm = "mcore.tools.cli:main"
 
 # ✅ 新写法：PEP 735 dependency groups（替代 [tool.uv].dev-dependencies）
 [dependency-groups]
@@ -25,7 +25,7 @@ dev = [
   "pytest>=8",
 ]
 
-# ✅ 关键：明确只把 kb 当作要安装的包（避免 data/front_end 被误当成包）
+# ✅ 关键：明确只把 mm 当作要安装的包（避免 data/front_end 被误当成包）
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["*"]
