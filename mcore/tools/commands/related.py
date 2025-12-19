@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import sqlite3
-from ..db import init_db
-from ..embedder import hashed_bow_embedding
-from ..vector_store import fetch_all_embeddings, cosine_topk, upsert_embeddings
+from mcore.db import init_db
+from mcore.embedder import hashed_bow_embedding
+from mcore.vector_store import fetch_all_embeddings, cosine_topk, upsert_embeddings
 
 def _ensure_embeddings_for_doc(conn: sqlite3.Connection, doc_id: str, model: str, dim: int) -> None:
     rows = conn.execute("""

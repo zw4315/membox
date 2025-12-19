@@ -1,14 +1,50 @@
 from __future__ import annotations
 
 import argparse
-from ..kb.db import connect
-from ..kb.commands import index as cmd_index
-from ..kb.commands import search as cmd_search
-from ..kb.commands import related as cmd_related
+import os
+import sys
+import textwrap
+from pathlib import Path
+
+if __package__ in (None, ""):
+    sys.path.append(str(Path(__file__).resolve().parents[2]))
+
+from dotenv import load_dotenv
+
+from mcore.db import connect
+from mcore.tools.commands import index as cmd_index
+from mcore.tools.commands import search as cmd_search
+from mcore.tools.commands import related as cmd_related
+from mcore.tools.commands import api as cmd_api
+
+load_dotenv()
+
+class HelpFormatter(argparse.ArgumentDefaultsHelpFormatter, argparse.RawTextHelpFormatter):
+    pass
+
+class Parser(argparse.ArgumentParser):
+    def error(self, message: str) -> None:
+        self.print_help(sys.stderr)
+        self.exit(2, f"\nerror: {message}\n")
 
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="kb", description="kb-mvp: PDF -> SQLite FTS -> related chunks")
-    p.add_argument("--db", default="data/kb.sqlite", help="SQLite db path (default: data/kb.sqlite)")
+    repo_root = Path(__file__).resolve().parents[2]
+    default_db = os.getenv("MEMBOX_DB_PATH", str(repo_root / "data" / "membox.sqlite"))
+    epilog = textwrap.dedent(
+        """\
+        Examples:
+          mm index ./data/pdfs
+          mm search "redis index"
+          mm api search "vector db"
+        """
+    )
+    p = Parser(
+        prog="mm",
+        description="membox: PDF -> SQLite FTS -> related chunks",
+        epilog=epilog,
+        formatter_class=HelpFormatter,
+    )
+    p.add_argument("--db", default=default_db, help="SQLite db path")
     sub = p.add_subparsers(dest="cmd", required=True)
 
     pi = sub.add_parser("index", help="Ingest PDF(s) and build index")
@@ -42,10 +78,15 @@ def build_parser() -> argparse.ArgumentParser:
     pr.add_argument("--format", choices=["text", "json"], default="text")
     pr.set_defaults(_run=cmd_related.run)
 
+    cmd_api.add_parser(sub)
+
     return p
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
+    if args.cmd == "api":
+        return cmd_api.run(args)
+
     conn = connect(args.db)
     try:
         return int(args._run(conn, args))

@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import sqlite3
 from .common import print_kv
-from ..indexer import index_pdf, list_pdfs
-from ..db import init_db
+from mcore.indexer import index_pdf, list_pdfs
+from mcore.db import init_db
 
 def run(conn: sqlite3.Connection, args) -> int:
     init_db(conn)

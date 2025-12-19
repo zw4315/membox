@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import sqlite3
-from ..db import init_db
+from mcore.db import init_db
 
 def run(conn: sqlite3.Connection, args) -> int:
     init_db(conn)
